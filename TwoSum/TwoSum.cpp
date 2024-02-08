@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include <map>
 using namespace std;
 
 class Solution {
@@ -15,16 +15,27 @@ public:
         if (size <= 1 || size > pow(10, 4))
             return {};
 
+        std::map<int, int> valueIndexHashMap;
         for (int i = 0; i < size; i++)
         {
             int num1 = nums.at(i);
             int num2 = target - num1;
 
-            for (int j = i + 1; j < size; j++)
+            //In brute force approach due to usage of two for loops the time complexity is O(n2) and Space complexity is O(1)
+            //To reduce the time complexity, we are going to increase the space complexity to O(n), making time complexity as O(n) 
+            //by introducting hash map
+
+
+            /*for (int j = i + 1; j < size; j++)
             {
                 if (nums.at(j) == num2)
                     return { i, j };
-            }
+            }*/
+
+            if (valueIndexHashMap.find(num1) != valueIndexHashMap.end())
+                return { valueIndexHashMap[num1], i };
+            else
+                valueIndexHashMap[num2] = i;
         }
 
         return {};
